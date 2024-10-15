@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walkie Talkie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .walkie-talkie {
+            position: relative;
+            width: 300px;
+            height: 550px;
+            background-color: #333;
+            border-radius: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .screen {
+            width: 100%;
+            height: 80px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .ptt-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background-color: #f44336;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .ptt-button:active {
+            background-color: #c62828;
+        }
+
+        .channel-select {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="walkie-talkie">
+        <div class="screen" id="status">Status: Disconnected</div>
+        <div class="channel-select">
+            <select id="channelSelect">
+                <option value="1">Channel 1</option>
+                <option value="2">Channel 2</option>
+                <option value="3">Channel 3</option>
+            </select>
+        </div>
+        <div class="ptt-button" id="pttButton">PTT</div>
+    </div>
+    <script>
+        let currentChannel = 1;
+        let isConnected = false;
+
+        document.getElementById('channelSelect').addEventListener('change', function() {
+            currentChannel = this.value;
+            updateStatus(`Switched to Channel ${currentChannel}`);
+            // Logic to handle channel switching
+            switchChannel(currentChannel);
+        });
+
+        document.getElementById('pttButton').addEventListener('mousedown', function() {
+            if (isConnected) {
+                startTransmission();
+            } else {
+                updateStatus('Not connected');
+            }
+        });
+
+        document.getElementById('pttButton').addEventListener('mouseup', function() {
+            if (isConnected) {
+                stopTransmission();
+            }
+        });
+
+        function updateStatus(message) {
+            document.getElementById('status').innerText = `Status: ${message}`;
+        }
+
+        function startTransmission() {
+            updateStatus(`Transmitting on Channel ${currentChannel}...`);
+            // Logic to start audio transmission
+        }
+
+        function stopTransmission() {
+            updateStatus(`Stopped transmitting on Channel ${currentChannel}`);
+            // Logic to stop audio transmission
+        }
+
+        function switchChannel(channel) {
+            // Logic to handle channel change on the backend
+            console.log(`Switched to channel ${channel}`);
+            // Example: signal the backend to change the channel
+        }
+
+        function connect() {
+            // Implement WebRTC signaling connection here
+            isConnected = true; // Set true once connected
+            updateStatus('Connected');
+        }
+
+        // Call connect function to establish connection on page load
+        connect();
+    </script>
+</body>
+</html>
